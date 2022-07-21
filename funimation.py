@@ -10,7 +10,9 @@ import base64
 
 import API.client as funi_client
 import API.config as funi_cfg
-
+import pyfiglet
+from rich import print
+from typing import DefaultDict
 from subprocess import Popen
 from unidecode import unidecode
 from m3u8 import parse as m3u8parser
@@ -22,6 +24,10 @@ currentFile = 'funimation'
 realPath = os.path.realpath(currentFile)
 dirPath = os.path.dirname(realPath)
 SESSION = requests.Session()
+
+title = pyfiglet.figlet_format('Funimation Downloader', font='slant')
+print(f'[magenta]{title}[/magenta]')
+print("by -∞WKS∞-#3982")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--url", dest="url")
@@ -298,30 +304,21 @@ def Funimation_Tool():
         print()
         if not args.novideo:
             print(m3u8url)
-            print(VIDEO INFO:)
-            print(Bitrate: ' + convert_size(int(video_bandwidth)) + ')
-            print(Profile: ' + video_codec + ')
-            print(Dimensions: ' + video_width + 'x' + video_height)
+            print('VIDEO - Bitrate: ' + convert_size(int(video_bandwidth)) + ' - Profile: ' + video_codec + ' - Dimensions: ' + video_width + 'x' + video_height)
             print()
 
         if not args.noaudio:
             if audio_List != []:
                 for x in audio_List:
                     audio_lang = x['LanguageID']
-                    print(AUDIO INFO:)
-                    print(Bitrate: 256kbps)
-                    print(Profile: ' + audio_codec + ')
-                    print(Channels: 2)
-                    print(Language: ' + audio_lang)
+                    print('AUDIO - Bitrate: 256kbps - Profile: ' + audio_codec + ' - Channels: 2 - Language: ' + audio_lang)
                     print()
 
         if not args.nosubs:
             if subs_list != []:
                 for z in subs_list:
                     sub_lang = z['LanguageId']
-                    print('SUBTITLE INFO:)
-                    print(Profile: NORMAL) 
-                    print(Language: ' + sub_lang)
+                    print('SUBTITLE - Profile: NORMAL - Language: ' + sub_lang)
                     print()
 
         print('Name: '+ eps['seriesName'] + '\n')
@@ -389,9 +386,7 @@ def Funimation_Tool():
             print("File '" + str(VideoOutputName) + "' already exists.")
 
     def call_streamlink(m3u8_url, output):
-        print(m3u8_url)
         print(output)
-        print(Download...)
         streamlink_opts = [
              "streamlink",
                 m3u8_url, "best", "--quiet",
